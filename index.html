@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CineForge AI — Script to Cinema</title>
+<style>
+:root{--bg:#06060a;--panel:#101018;--line:#242433;--text:#f7f7fb;--muted:#9b9bab;--accent:#8b6cff;--accent2:#c3b5ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 75% 0%,#201747 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+nav{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;border-bottom:1px solid #15151e;backdrop-filter:blur(12px);position:sticky;top:0;background:#06060add;z-index:3}
+.logo{font-weight:900;font-size:21px;letter-spacing:-.5px}.logo span{color:var(--accent2)}
+nav button,.ghost{background:transparent;border:1px solid var(--line);color:var(--text);padding:10px 16px;border-radius:12px}
+.hero{max-width:1120px;margin:auto;padding:85px 24px 50px;text-align:center}.badge{display:inline-flex;border:1px solid #3b315e;background:#171226;color:#c9bfff;border-radius:999px;padding:7px 12px;font-size:13px}
+h1{font-size:clamp(48px,8vw,88px);line-height:.94;letter-spacing:-5px;margin:20px auto;max-width:900px}
+.grad{background:linear-gradient(100deg,#fff,#9e86ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:670px;margin:0 auto;color:var(--muted);font-size:18px;line-height:1.6}.hero-actions{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.primary{background:linear-gradient(135deg,#8b6cff,#6848df);border:0;color:white;padding:14px 20px;border-radius:13px;font-weight:800;cursor:pointer;box-shadow:0 10px 35px #5e43c533}
+.section{max-width:1120px;margin:30px auto;padding:0 24px 80px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.card{background:linear-gradient(180deg,#11111a,#0c0c12);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 25px 80px #0006}
+label{display:block;font-size:13px;color:#b5b5c5;margin-bottom:9px;font-weight:700}textarea{width:100%;min-height:220px;resize:vertical;background:#08080d;border:1px solid #252532;border-radius:15px;color:white;padding:16px;font:inherit;outline:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.chip{padding:10px 14px;border-radius:11px;background:#12121b;border:1px solid #292936;color:#bbb;cursor:pointer}.chip.active{background:#271d4c;border-color:#7457d5;color:#fff}
+.pipeline{display:grid;gap:12px}.step{display:flex;gap:12px;align-items:center;padding:13px;border:1px solid #22222e;border-radius:13px;background:#0b0b11}.icon{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:#20183a}
+.status{display:none;margin-top:15px}.bar{height:8px;background:#20202a;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#6848df,#b9a8ff);transition:width .15s}.status small{display:block;color:#999;margin-top:8px}
+.result{display:none;margin-top:20px}.preview{aspect-ratio:16/9;border-radius:16px;background:linear-gradient(135deg,#11101d,#251d42 45%,#08080c);display:grid;place-items:center;border:1px solid #312a47}.preview .play{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ffffff16;border:1px solid #ffffff33;font-size:25px}
+footer{text-align:center;color:#666;padding:30px;border-top:1px solid #15151e}
+@media(max-width:800px){.grid{grid-template-columns:1fr}h1{letter-spacing:-3px}.hero{padding-top:60px}}
+</style>
+</head>
+<body>
+<nav><div class="logo">CineForge <span>AI</span></div><button onclick="document.getElementById('forge').scrollIntoView({behavior:'smooth'})">Open Studio</button></nav>
+<header class="hero">
+<div class="badge">⚡ AI filmmaking prototype</div>
+<h1>Turn a <span class="grad">script into cinema.</span></h1>
+<p>Plan characters, shots and continuity from one story prompt. CineForge AI is designed for short cinematic films.</p>
+<div class="hero-actions"><button class="primary" onclick="document.getElementById('forge').scrollIntoView({behavior:'smooth'})">Create a film →</button><button class="ghost" onclick="alert('Prototype: real generation API comes in the backend phase.')">How it works</button></div>
+</header>
+
+<section class="section" id="forge">
+<div class="grid">
+<div class="card">
+<h2>🎬 Create your film</h2>
+<p style="color:#888">Describe the story you want CineForge to forge.</p>
+<label for="script">STORY / SCRIPT</label>
+<textarea id="script">What if Karna won the final battle of Kurukshetra?</textarea>
+<label style="margin-top:16px">DURATION</label>
+<div class="row" id="dur"><button class="chip active">30 sec</button><button class="chip">60 sec</button><button class="chip">120 sec</button></div>
+<label>VISUAL STYLE</label>
+<div class="row" id="styles"><button class="chip active">Epic Cinematic</button><button class="chip">Mythological</button><button class="chip">Realistic</button><button class="chip">Anime</button></div>
+<button class="primary" style="width:100%;margin-top:8px;font-size:15px" id="generate">✨ GENERATE MOVIE</button>
+<div class="status" id="status"><div class="bar"><div class="fill" id="fill"></div></div><small id="statusText">Analyzing story…</small></div>
+<div class="result" id="result"><div class="preview"><div class="play">▶</div></div><h3>Prototype render ready</h3><p style="color:#888">This preview is simulated. Connect the secure backend to generate real video.</p></div>
+</div>
+
+<div class="card">
+<h2>🧠 AI Pipeline</h2><p style="color:#888">From one idea to a structured film.</p>
+<div class="pipeline">
+<div class="step"><div class="icon">📖</div><div><b>Story Analyzer</b><br><small style="color:#777">Breaks the script into beats</small></div></div>
+<div class="step"><div class="icon">👤</div><div><b>Character Memory</b><br><small style="color:#777">Keeps faces and costumes consistent</small></div></div>
+<div class="step"><div class="icon">🎥</div><div><b>Shot Generator</b><br><small style="color:#777">Creates cinematic shot prompts</small></div></div>
+<div class="step"><div class="icon">🔗</div><div><b>Continuity Engine</b><br><small style="color:#777">Carries visual context forward</small></div></div>
+<div class="step"><div class="icon">🎙️</div><div><b>Audio Engine</b><br><small style="color:#777">Dialogue, SFX and music</small></div></div>
+<div class="step"><div class="icon">🎞️</div><div><b>Final Render</b><br><small style="color:#777">Assembles the finished film</small></div></div>
+</div>
+</div>
+</div>
+</section>
+<footer>CineForge AI • Prototype V1 • Script → Cinema</footer>
+<script>
+document.querySelectorAll('.row').forEach(row=>row.querySelectorAll('.chip').forEach(btn=>btn.onclick=()=>{row.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}));
+const generate=document.getElementById('generate'),status=document.getElementById('status'),fill=document.getElementById('fill'),text=document.getElementById('statusText'),result=document.getElementById('result');
+generate.onclick=()=>{
+ const script=document.getElementById('script').value.trim();
+ if(!script){alert('Write a story first.');return}
+ generate.disabled=true;status.style.display='block';result.style.display='none';fill.style.width='0%';
+ const stages=['Analyzing story…','Building character memory…','Planning cinematic shots…','Checking continuity…','Preparing audio…','Rendering film…'];
+ let i=0;
+ const timer=setInterval(()=>{i++;fill.style.width=(i/stages.length*100)+'%';text.textContent=stages[Math.min(i,stages.length)-1];if(i>=stages.length){clearInterval(timer);generate.disabled=false;result.style.display='block';text.textContent='Complete — prototype render ready.'}},500);
+};
+</script>
+</body>
+</html>
